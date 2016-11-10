@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- 
+	In-Game Personal Display: AltspaceVR Links (right panel)
+
+	Not intended for use outside AltspaceVR environment.
+	Copyright (c) 2015 AltspaceVR
+ -->
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>AltspaceVR Links</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="theme/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link href="theme/css/4-col-portfolio.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- to check viewport size: http://benfrain.com/downloads/respond.html -->
+	<!-- center and side panels: 1024 x 576 -->
+
+	<style>
+	  /* Override theme styling */    
+		body {
+			/* Start at the tippy-top of the page */
+			background-color: rgba(0, 0, 0, 0.5);
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+	  	}
+	  	@media (min-width: 992px) {
+		  .container {
+		  	/* Size of personal display panels in AltspaceVR */
+		  	/* Override standard bootstrap value of 970px */
+		    width: 1024px;
+		  }
+		}
+		.alt-border-helper {
+			position: absolute;
+			top: 0;
+			left: 0;
+			border: 3px solid black;
+			border-color: black;
+			width: 1024px;
+			height: 576px;
+			/* DEBUG -- comment out next line to show display area border */
+			display: none;
+		}
+		h2, h3, h4, h5, h6 {
+			color: #FFFFFF;
+			font-weight: normal;
+		}
+		.alt-overlay-bottom {
+			position: absolute;
+			width: inherit;
+			bottom: 0px;
+			margin-left: 10px;
+		}
+		.alt-outline > a > .img-rounded:hover { 
+			/* Image hover effect, bluish color matches action bar hover */
+			/* Use box-shadow instead of outline to get rounded corners. */
+			box-shadow: 0 0 0 3px #1CB6D3;
+			border-radius: 6px;
+		}
+
+		.alt-help-icon-row {
+			padding-bottom: 15px;
+		}
+		#alt-div-invite {
+		    width    : 315px;
+		    height   : 262px;
+		    overflow : hidden;
+		    position : relative;
+		}
+		#alt-iframe-invite {
+		    position : absolute;
+		    top      : -290px;  /* decrease to scroll down */
+		    left     : -240px;  /* decrease to scroll right */     
+		    width    : 800px;
+		    height   : 1200px;
+		    transform: scale(0.85, 0.85);
+		    -webkit-transform: scale(0.85, 0.85); /* need this in AltspaceVR */
+		    -moz-transform: scale(0.85, 0.85);
+		}
+		.img-rounded {
+			/* hack to make the 4-icon grid look better */
+			height: 100px;
+			width: 150px;
+			background-color: rgba(0, 0, 0, 0.8); 
+		}
+		.col-md-8 {
+			/* hack for alignment */
+			margin-right: -10px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="alt-border-helper"></div>
+
+	<!-- Page Content -->
+	<div class="container">
+
+		<h2>ALTSPACE VR</h2>
+
+		<div class="col-md-4">
+			<!-- Nested rows -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- Help Center icons -->
+					<div class="row"> <!-- each 160x205 -->
+						<div class="col-md-12">
+							<div class="row alt-help-icon-row">
+								<div class="col-md-6 alt-outline">
+									<a href="http://www.tingting-wu.com/altspace_comic/welcome.html">
+										<img class="img-rounded" src="images/altspace_tutorials.png" alt="Tutorials"
+									</a>
+								</div>
+								<div class="col-md-6 alt-outline">
+									<a href="https://altvr.zendesk.com/">
+										<img class="img-rounded" src="images/altspace_faq.png" alt="Help Center">
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- /.row -->
+						<div class="col-md-12">
+							<div class="row alt-help-icon-row">
+								<div class="col-md-6 alt-outline">
+									<a href="https://altvr.zendesk.com/hc/en-us/requests/new">
+										<img class="img-rounded" src="images/altspace_bugs.png" alt="Report Issues">
+									</a>
+								</div>
+								<div class="col-md-6 alt-outline">
+									<a href="http://www.reddit.com/r/altspacevr/">
+										<img class="img-rounded" src="images/altspace_subreddit.png" alt="Report Issues">
+									</a>
+								</div>
+							</div>
+							<!-- /.row -->
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-md-12 alt-outline"> <!-- 495x220 -->
+					<div id="alt-div-invite">
+						<iframe src="https://account.altvr.com/invite/new" scrolling="no" id="alt-iframe-invite">
+						</iframe>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+	</div>
+	<!-- /.container -->
+
+
+	<!-- jQuery -->
+	<script src="theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="theme/js/bootstrap.min.js"></script>
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-54682313-7', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+</body>
+
+</html>

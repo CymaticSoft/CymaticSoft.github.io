@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--
+	In-Game Personal Display: Homepage (center panel)
+
+	Not intended for use outside AltspaceVR environment.
+	Copyright (c) 2015 AltspaceVR
+ -->
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>AltspaceVR Home</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="theme/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link href="theme/css/4-col-portfolio.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- to check viewport size: http://benfrain.com/downloads/respond.html -->
+	<!-- center and side panels: 1280 x 720 -->
+
+	<style>
+	  /* Override theme styling */
+		body {
+			/* Start at the tippy-top of the page */
+			background-color: rgba(0, 0, 0, 0.5);
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+	  	}
+	  	@media (min-width: 992px) {
+		  .container {
+		  	/* Size of personal display panels in AltspaceVR */
+		  	/* Override standard bootstrap value of 970px */
+		    width: 1280px;
+		    margin-left: 10px;
+		  }
+		}
+		.alt-border-helper {
+			position: absolute;
+			top: 0;
+			left: 0;
+			border: 3px solid black;
+			border-color: black;
+			width: 1280px;
+			height: 720px;
+			/* DEBUG -- comment out next line to show display area border */
+			/* display: none; */
+		}
+		h2 {
+			color: #FFFFFF;
+			font-weight: normal;
+			margin-left: 10px;
+		}
+		.col-md-4 {
+			/* Reduce padding between items */
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		.col-md-5 {
+			/* Change this class to represent 2/5 of width (not 5/12) in our 5-col layout */
+			width: 40%;
+		}
+		.col-md-7 {
+			/* Change class to represents 3/5 of width (not 7/12) in our 5-col layout */
+			width: 60%;
+		}
+		.portfolio-item > a > .img-responsive:hover {
+			/* image hover effect, bluish color matches action bar hover */
+			outline: 3px solid #1CB6D3;
+		}
+	</style>
+
+	<script>
+	/**
+	* Function that tracks a click on an outbound link in Analytics.
+	* This function takes a valid URL string as an argument, and uses that URL string
+	* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+	* using 'navigator.sendBeacon' in browser that support it.
+	*/
+	var trackOutboundLink = function(url) {
+	   ga('send', 'event', 'outbound', 'click', url, {
+	     'transport': 'beacon',
+	     'hitCallback': function(){document.location = url;}
+	   });
+	}
+	</script>
+
+</head>
+
+<body>
+	<div class="alt-border-helper"></div>
+
+	<!-- Page Content -->
+	<div class="container">
+
+		<h2>GALLERY</h2>
+
+		<!-- Left Column, 3/5 of page (previously for the twitter feed) -->
+		<!-- <div class="col-md-7"> -->
+
+			<!-- Left Row 1 -->
+			<div class="row">
+				<div class="col-md-3 portfolio-item">
+					<a href="http://www.youtube.com/" onclick="trackOutboundLink('http://www.youtube.com/'); return false;">
+						<img class="img-responsive" src="images/youtube.png" alt="YouTube">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://www.google.com/" onclick="trackOutboundLink('http://www.google.com/'); return false;">
+						<img class="img-responsive" src="images/google.png" alt="Google">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="https://www.youtube.com/music" onclick="trackOutboundLink('https://www.youtube.com/music'); return false;">
+						<img class="img-responsive" src="images/youtube_music.png" alt="YouTube Music">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="https://www.youtube.com/music" onclick="trackOutboundLink('https://www.youtube.com/music'); return false;">
+						<img class="img-responsive" src="images/youtube_music.png" alt="YouTube Music">
+					</a>
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<!-- Left Row 2 -->
+			<div class="row">
+				<div class="col-md-3 portfolio-item">
+					<a href="http://missile-game.bwhmather.com/" onclick="trackOutboundLink('http://missile-game.bwhmather.com/'); return false;">
+						<img class="img-responsive" src="images/missilegame.png" alt="Missile Game">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://m.imdb.com/" onclick="trackOutboundLink('http://m.imdb.com/'); return false;">
+						<img class="img-responsive" src="images/imdb.png" alt="imdb">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://m.wikipedia.com" onclick="trackOutboundLink('http://m.wikipedia.com/'); return false;">
+						<img class="img-responsive" src="images/wikipedia.png" alt="Wikipedia">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://m.wikipedia.com" onclick="trackOutboundLink('http://m.wikipedia.com/'); return false;">
+						<img class="img-responsive" src="images/wikipedia.png" alt="Wikipedia">
+					</a>
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<!-- Left Row 3 -->
+			<div class="row">
+				<div class="col-md-3 portfolio-item">
+					<a href="http://www.cnn.com/" onclick="trackOutboundLink('http://www.cnn.com/'); return false;">
+						<img class="img-responsive" src="images/cnn.png" alt="CNN">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://vox.com/" onclick="trackOutboundLink('http://vox.com/'); return false;">
+						<img class="img-responsive" src="images/vox.png" alt="Vox">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://twitter.com" onclick="trackOutboundLink('http://twitter.com'); return false;">
+						<img class="img-responsive" src="images/twitter.png" alt="Twitter">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://twitter.com" onclick="trackOutboundLink('http://twitter.com'); return false;">
+						<img class="img-responsive" src="images/twitter.png" alt="Twitter">
+					</a>
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<!-- Left Row 4 -->
+			<div class="row">
+
+				<div class="col-md-3 portfolio-item">
+					<a href="https://docs.google.com/presentation/d/1Zn-lhggmAMOKpASS2PfyJUjy5DbqLq1dDXgR_n8kSaU/pub?start=false&loop=false&delayms=5000" onclick="trackOutboundLink('https://docs.google.com/presentation/d/1Zn-lhggmAMOKpASS2PfyJUjy5DbqLq1dDXgR_n8kSaU/pub?start=false&loop=false&delayms=5000'); return false;">
+						<img class="img-responsive" src="images/getstartedblue.png" alt="AltspaceTutorial">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="https://altvr.zendesk.com/hc/en-us" onclick="trackOutboundLink('https://altvr.zendesk.com/hc/en-us'); return false;">
+						<img class="img-responsive" src="images/help.png" alt="Help">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://www.reddit.com/r/altspacevr/" onclick="trackOutboundLink('http://www.reddit.com/r/altspacevr/'); return false;">
+						<img class="img-responsive" src="images/reddit.png" alt="Reddit">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://www.reddit.com/r/altspacevr/" onclick="trackOutboundLink('http://www.reddit.com/r/altspacevr/'); return false;">
+						<img class="img-responsive" src="images/reddit.png" alt="Reddit">
+					</a>
+				</div>
+			</div>
+			<!-- /.row -->
+		<!-- </div> -->
+
+		<!-- Right Column, 2/5 of page (previously for the twitter feed) -->
+		<!-- <div class="col-md-5"> -->
+		<!-- </div> -->
+	</div>
+	<!-- /.container -->
+
+	<!-- jQuery -->
+	<script src="theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="theme/js/bootstrap.min.js"></script>
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-54682313-7', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+</body>
+
+</html>
