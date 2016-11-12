@@ -49,7 +49,8 @@
 		  .container {
 		  	/* Size of personal display panels in AltspaceVR */
 		  	/* Override standard bootstrap value of 970px */
-		    width: 1024px;
+		    width: 1280px;
+		    margin-left: 10px;
 		  }
 		}
 		.alt-border-helper {
@@ -61,22 +62,25 @@
 			width: 1280px;
 			height: 720px;
 			/* DEBUG -- comment out next line to show display area border */
-			display: none;
+			/* display: none; */
 		}
-		h3 {
+		h2 {
 			color: #FFFFFF;
 			font-weight: normal;
 			margin-left: 10px;
 		}
-		.col-centered {
-  			float: none;
-  			margin-right: auto;
-  			margin-left: auto;
-		}
-		.col-md-3 {
+		.col-md-4 {
 			/* Reduce padding between items */
 			padding-right: 10px;
 			padding-left: 10px;
+		}
+		.col-md-5 {
+			/* Change this class to represent 2/5 of width (not 5/12) in our 5-col layout */
+			width: 40%;
+		}
+		.col-md-7 {
+			/* Change class to represents 3/5 of width (not 7/12) in our 5-col layout */
+			width: 60%;
 		}
 		.portfolio-item > a > .img-responsive:hover {
 			/* image hover effect, bluish color matches action bar hover */
@@ -102,16 +106,15 @@
 </head>
 
 <body>
-
 	<div class="alt-border-helper"></div>
 
 	<!-- Page Content -->
 	<div class="container">
-		<center>
-		<h3>GALLERY</h3>
-		
-		<!-- Centered column, 5/6 of page -->
-		<div class="col-md-10 col-centered">
+
+		<h2>GALLERY</h2>
+
+		<!-- Left Column, 3/5 of page (previously for the twitter feed) -->
+		<!-- <div class="col-md-7"> -->
 
 			<!-- Left Row 1 -->
 			<div class="row">
@@ -131,8 +134,8 @@
 					</a>
 				</div>
 				<div class="col-md-3 portfolio-item">
-					<a href="http://www.euronews.com/_partners/googletv/" onclick="trackOutboundLink('http://www.euronews.com/_partners/googletv/'); return false;">
-						<img class="img-responsive" src="images/Tile_Euronews.png" alt="Euronews">
+					<a href="https://www.youtube.com/music" onclick="trackOutboundLink('https://www.youtube.com/music'); return false;">
+						<img class="img-responsive" src="images/youtube_music.png" alt="YouTube Music">
 					</a>
 				</div>
 			</div>
@@ -156,8 +159,8 @@
 					</a>
 				</div>
 				<div class="col-md-3 portfolio-item">
-					<a href="http://homenet.tv/big-picture/chstory?current=0" onclick="trackOutboundLink('http://homenet.tv/big-picture/chstory?current=0'); return false;">
-						<img class="img-responsive" src="images/Tile_BigPicture.png" alt="The Big Picture">
+					<a href="http://m.wikipedia.com" onclick="trackOutboundLink('http://m.wikipedia.com/'); return false;">
+						<img class="img-responsive" src="images/wikipedia.png" alt="Wikipedia">
 					</a>
 				</div>
 			</div>
@@ -166,23 +169,23 @@
 			<!-- Left Row 3 -->
 			<div class="row">
 				<div class="col-md-3 portfolio-item">
-					<a href="http://www.nbcnews.com/" onclick="trackOutboundLink('http://www.nbcnews.com/'); return false;">
-						<img class="img-responsive" src="images/Tile_NBCnews.png" alt="NBC">
+					<a href="http://www.cnn.com/" onclick="trackOutboundLink('http://www.cnn.com/'); return false;">
+						<img class="img-responsive" src="images/cnn.png" alt="CNN">
 					</a>
 				</div>
 				<div class="col-md-3 portfolio-item">
-					<a href="http://twitter.com/altspacevr" onclick="trackOutboundLink('http://twitter.com/altspacevr'); return false;">
+					<a href="http://vox.com/" onclick="trackOutboundLink('http://vox.com/'); return false;">
+						<img class="img-responsive" src="images/vox.png" alt="Vox">
+					</a>
+				</div>
+				<div class="col-md-3 portfolio-item">
+					<a href="http://twitter.com" onclick="trackOutboundLink('http://twitter.com'); return false;">
 						<img class="img-responsive" src="images/twitter.png" alt="Twitter">
 					</a>
 				</div>
 				<div class="col-md-3 portfolio-item">
-					<a href="https://polygon.com" onclick="trackOutboundLink('https://polygon.com'); return false;">
-						<img class="img-responsive" src="images/Tile_Polygon.png" alt="Polygon">
-					</a>
-				</div>
-				<div class="col-md-3 portfolio-item">
-					<a href="http://www.bbc.co.uk/iplayer" onclick="trackOutboundLink('http://www.bbc.co.uk/iplayer'); return false;">
-						<img class="img-responsive" src="images/Tile_BBC.png" alt="BBC">
+					<a href="http://twitter.com" onclick="trackOutboundLink('http://twitter.com'); return false;">
+						<img class="img-responsive" src="images/twitter.png" alt="Twitter">
 					</a>
 				</div>
 			</div>
@@ -207,14 +210,17 @@
 					</a>
 				</div>
 				<div class="col-md-3 portfolio-item">
-					<a href="http://www.vrcasters.com/" onclick="trackOutboundLink('http://www.vrcasters.com/'); return false;">
-						<img class="img-responsive" src="images/Tile_VRCasters.png" alt="VRCasters">
+					<a href="http://www.reddit.com/r/altspacevr/" onclick="trackOutboundLink('http://www.reddit.com/r/altspacevr/'); return false;">
+						<img class="img-responsive" src="images/reddit.png" alt="Reddit">
 					</a>
 				</div>
 			</div>
 			<!-- /.row -->
-		</div>
+		<!-- </div> -->
 
+		<!-- Right Column, 2/5 of page (previously for the twitter feed) -->
+		<!-- <div class="col-md-5"> -->
+		<!-- </div> -->
 	</div>
 	<!-- /.container -->
 
