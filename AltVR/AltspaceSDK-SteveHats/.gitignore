@@ -1,0 +1,15 @@
+.DS_Store
+*.swp
+prepros.cfg
+README.html
+lib/README.html
+CHANGELOG.html
+
+node_modules
+
+*.csproj
+*.csproj.user
+*.sln
+*.suo
+obj
+*.webinfo

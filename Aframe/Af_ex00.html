@@ -1,13 +1,22 @@
 <html>
+  <title>Basic Primitives</title>
   <head>
     <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AltspaceVR/AltspaceSDK/v2.0.2/dist/altspace.min.js"></script>
   </head>
   <body>
-    <a-scene altspace='vertical-align: bottom;'>
+    <!-- set up the scene -->
+    <a-scene altspace>
+      <!-- add the box to the scene -->
       <a-box color="#6173F4" opacity="0.8" depth="2"></a-box>
+      <!-- add the sphere to the scene -->
       <a-sphere radius="0.5" src="assets/texture.png" position="1 1 0"></a-sphere>
+      <!-- add skybox to the scene (2D only) -->
       <a-sky color="#ECECEC"></a-sky>
+      <!-- add camera to the scene (2D only) -->
+      <a-entity position='0 0 3'>
+        <a-camera></a-camera>
+      </a-entity>
     </a-scene>
   </body>
 </html>

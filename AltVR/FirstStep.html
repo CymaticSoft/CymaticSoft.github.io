@@ -1,0 +1,233 @@
+<!-- Example showing a few basic things:
+		- get an obj (in this case a item) into ASVR
+		- get some 3d text diplayed in ASVR
+		- show different things to ASVR and a regular browser
+-->
+
+<!DOCTYPE html>
+<html lang=en>
+<head>
+		<meta charset=utf-8>
+
+		<title>ASVR Web SDK First Step</title>
+
+		<!-- reference all used libraries -->
+       	
+       	<script src="lib/three.js"></script>
+		
+		<!-- Required by OBJMTLLoader.js -->
+		<script src="lib/MTLLoader.js"></script>
+		<script src="lib/OBJMTLLoader.js"></script>
+		<script src="lib/firebase.js"></script>
+
+		<script src="src/cursor/CursorEvents.js"></script>
+		<script src="src/cursor/AltObjectControls.js"></script>
+		<script src="src/sync/FirebaseSync.js"></script>
+
+		<script src="src/cursor/ColorHoverEffect.js"></script>
+		<script src="src/cursor/DragPlaneEffect.js"></script>
+
+		<script src="fonts/helvetiker_regular.typeface.js"></script>
+
+		<!-- sets the style for the web page before scene loads -->
+		<style>
+			body {
+				background-color: rgba(0, 0, 0, 0);
+				margin: 0px;
+				overflow: hidden;
+
+				color: #DDDDDD;
+				font-family: Monospace;
+				font-size: 24px;
+				text-align: center;
+			}
+			#info {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				padding: 10px;
+			}
+		</style>
+		
+</head>
+
+<body>
+<body>
+		<!-- Basic title. Stays visible in regular browser, visible in AltspaceVR enclosure while the scene loads. -->
+		<div id="info">
+				<a href="http://github.com/AltspaceVR/AltspaceSDK"target="_blank">AltspaceSDK</a> - Web SDK First Step
+		</div>
+</body>
+
+<!-- Let the Javascript Code begin! -->
+<script>
+
+//SETUP VARIABLES
+
+//This guy will enable us to show different things in ASVR and regular browsers.
+var inAltspace = window.hasOwnProperty('altspace');
+
+var scene, camera, renderer;
+
+var item;
+var itemHeight;
+
+var text = "For Altspace Only";
+var textB = "For Browser Only";
+
+var mainCount = 0;
+
+//MAIN FUNCTION - This function kicks it all off.
+function main() {
+
+	// TODO: remove this once bug where AltContentLoaded getting called repeatedly is fixed.
+	mainCount++;
+	if ( mainCount > 1 ) {
+		if ( mainCount === 2 ) console.error("AltContentLoaded called multiple times");
+		return;
+	}
+
+	// start off by loading .obj and .mtl files
+	loadModels();
+
+}
+
+//GENERAL FUNCTIONS
+
+//load our models!
+function loadModels() {
+
+	var loader = new THREE.OBJMTLLoader();
+
+	// loader assumes .mtl file has same basename as .obj file
+	var objFilename = "models/AltspaceCube/cube.obj";
+	var mtlFilename = "models/AltspaceCube/cube.mtl";
+	loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+		console.log("Loaded object from " + objFilename, loadedObject);
+		item = loadedObject;
+		console.log("model is loaded");
+		onModelsLoaded();
+		
+	});
+}
+
+//models are loaded. Now what?
+function onModelsLoaded() {
+
+	console.log("onMode begins");
+	initScene();
+
+}
+
+//initialize the scene!
+function initScene() {
+
+	scene = new THREE.Scene();
+
+	// TODO: Set size/scale of item base off pixelToMeterRatio
+	var scale = new THREE.Vector3( 10, 10, 10);
+	item.scale.copy( scale );
+	// or item.scale.set( scale.x, scale.y, scale.z)
+	// note item.scale = scale won't work, same for item.position
+
+	var itemBoundingBox = new THREE.Box3().setFromObject( item );
+	itemHeight = Math.abs( itemBoundingBox.max.y - itemBoundingBox.min.y );
+	item.position.y += 200; // off the ground
+	console.log("itemHeight", itemHeight);
+	console.log("Ypos", item.position.y);
+	console.log("Xpos", item.position.x);
+	console.log("Zpos", item.position.z);
+
+	if ( inAltspace ) {
+
+		//use the AltspaceVR renderer
+		renderer = altspace.getThreeJSRenderer({version: '0.2.0'});
+
+		// hide any elements on webpage
+		document.getElementById("info").style.visibility = "hidden";
+
+		// Place the scene at the bottom of the enclosure.
+		scene.position.y = ( -1 * window.innerHeight / 2 );
+
+		//Set up our 3D text that will be for Altspace only.
+		geometry = new THREE.TextGeometry(text);
+		material = new THREE.MeshBasicMaterial({color:'red'});
+		mesh = new THREE.Mesh(geometry, material);
+		mesh.position.x = -600;
+		mesh.scale.z = 0.3;
+		mesh.scale.multiplyScalar(1);
+		mesh.rotation.y = Math.PI;
+
+	} else {
+
+		//Set up a standard Three.js renderer
+		renderer = new THREE.WebGLRenderer();
+		renderer.setClearColor("#AAAAAA");
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		//Set up a camera for the browser
+		var aspect = window.innerWidth / window.innerHeight;
+		camera = new THREE.PerspectiveCamera(45, aspect, 1, 2000 );
+		camera.position.z = 15 * itemHeight; // stand back from origin
+		camera.position.y = 500;
+		camera.lookAt( scene.position );
+
+		//Set up 3d text for the browser only
+		geometry = new THREE.TextGeometry(textB);
+		material = new THREE.MeshBasicMaterial({color:'red'});
+		mesh = new THREE.Mesh(geometry, material);
+		mesh.position.x = -450;
+		mesh.scale.z = 0.3;
+		mesh.scale.multiplyScalar(1);
+		//mesh.rotation.y = Math.PI;
+
+		// OBJMTLLoader always uses PhongMaterial, so we need light in scene.
+		// Otherwise, assets are in the dark.
+		var ambient = new THREE.AmbientLight( 0xffffff );
+		scene.add( ambient );
+
+	}
+
+	// Don't forget to add loaded models into the scene.
+	scene.add(item);
+	scene.add(mesh);
+	console.log("Models added to scene");
+
+}
+
+//allow for some responsive resizing of the scene for the browser
+function onWindowResize() {
+
+	if ( inAltspace ) return ; // Resize not supported yet.
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+//function to get the scene rendered
+function animate() {
+
+	requestAnimationFrame(animate);
+	renderer.render(scene, camera);
+}
+
+//activates the responsive resizing action
+window.addEventListener( 'resize', onWindowResize, false );
+console.log("Browser resize enabled");
+
+//calls the Main function
+var mainEventName = inAltspace ? "AltContentLoaded" : "DOMContentLoaded";
+console.log("calling Main function");
+window.addEventListener( mainEventName, main);
+
+//renders the scene. Set on a delay to prevent errors in the debugger.
+window.setTimeout(animate, 1000);
+console.log("rendering the scene");
+
+</script>
+</body>
+</html>

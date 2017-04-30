@@ -1,0 +1,70 @@
+Back Cube
+
+<script src="lib/MTLLoader.js"></script>
+<script src="lib/OBJMTLLoader.js"></script>
+<script src="src/cursor/CursorEvents.js"></script>
+<script src="src/cursor/AltObjectControls.js"></script>
+
+<script>
+
+var cube;
+var cursorEvents;
+
+cursorEvents = new CursorEvents ( scene );
+
+loadModels();
+
+function loadModels() {
+
+	var loader = new THREE.OBJMTLLoader();
+
+	var objFilename = "models/AltspaceCube/back.obj";
+	var mtlFilename = "models/AltspaceCube/back.mtl";
+	loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+		console.log("Loaded object from " + objFilename, loadedObject);
+		cube = loadedObject;
+		onModelsLoaded();
+
+	});
+
+}
+
+function onModelsLoaded() {
+
+	createDragon();
+
+}
+
+var scale = new THREE.Vector3( 6, 6, 6 );
+cube.scale.copy( scale );
+cube.position.set( 400, -460, 450);
+scene.add( cube );
+cursorEvents.addObject( cube ); 
+cube.addEventListener( "cursordown", function (event) {
+
+    window.open("http://cymaticbruce.com/AltVR/AltPets.html");
+
+});
+
+//"cursorenter" - when we mouse over, cube grows a little bit.
+cube.addEventListener( "cursorenter", function (event) {
+
+    cube.scale.y *= 1.3;
+
+});
+
+//"cursorleave" - when me mouse out, cube returns to normal.
+cube.addEventListener( "cursorleave", function (event) {
+
+    cube.scale.y /= 1.3;
+
+});
+
+cube.rotation.y += 0.01;
+
+setTimeout(render(), 3000);
+
+</script>
+
+

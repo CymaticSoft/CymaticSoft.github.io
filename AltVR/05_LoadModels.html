@@ -1,0 +1,98 @@
+<!-- Example Five. So far, we have been using native three.js meshes. Let's load an .obj file now! We will also add a bit more structure, and separate our tasks into relevant functions.
+
+	B Wooden
+	Aug 10 2015
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Cursor Event with Cube</title>
+
+        <script src="../lib/three.js"></script>
+        <!-- A few more references added to the mix -->
+		<script src="../lib/MTLLoader.js"></script>
+		<script src="../lib/OBJMTLLoader.js"></script>
+</head>
+<body>
+	<script>
+
+	//Declare variables
+	var scene, renderer, camera;
+	var cube;
+	var inAltspace = window.hasOwnProperty('altspace');
+
+	//call the first function to kick things off
+	loadModels();
+
+	//function for loading models
+	function loadModels() {
+
+		var loader = new THREE.OBJMTLLoader();
+
+		var objFilename = "models/AltspaceCube/cube.obj";
+		var mtlFilename = "models/AltspaceCube/cube.mtl";
+		loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+			console.log("Loaded object from " + objFilename, loadedObject);
+			cube = loadedObject;
+			onModelsLoaded();
+			
+		});
+
+	}
+
+	//Models are loaded. What next? Let's get the scene initiated.
+	function onModelsLoaded() {
+
+		initScene();
+	}
+
+	//Here we set up the scene and define renderers.
+	function initScene() {
+
+		scene = new THREE.Scene();
+
+		if ( inAltspace ) {
+
+			renderer = altspace.getThreeJSRenderer({version: '0.2.0'});
+
+			var scale = new THREE.Vector3( 10, 10, 10 );
+			cube.scale.copy( scale );
+			cube.position.y = -450;
+			console.log("cube.pos.y =", cube.position.y )
+
+		} else {
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			camera.position.z = 50;
+			
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			
+			document.body.appendChild( renderer.domElement );
+
+			var ambient = new THREE.AmbientLight( 0xffffff );
+			scene.add( ambient );
+
+		}
+
+		scene.add( cube );
+
+		animate();
+
+	}
+	
+	//Our render function is named animate now. Why? 'cause its fun.
+	function animate() {
+
+		requestAnimationFrame( animate );
+
+		cube.rotation.y += 0.01;
+
+		renderer.render( scene, camera );
+
+	}
+
+	</script>
+</body>
+</html>

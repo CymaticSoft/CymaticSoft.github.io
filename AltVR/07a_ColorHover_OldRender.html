@@ -1,0 +1,185 @@
+<!-- Bare bones example of hover and drag events on a cube, working in both AltspaceVR and a regular browser.
+	Using Altspace Renderer 0.1.0.
+	NOTE: Currenty working only in browser.
+
+	Bruce Wooden
+	Aug 13 2015
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Cursor Event with Cube</title>
+
+        <script src="lib/three.min.js"></script>
+		<script src="lib/MTLLoader.js"></script>
+		<script src="lib/OBJMTLLoader.js"></script>
+		<script src="src/AltOBJMTLLoader.js"></script>
+		<script src="lib/OrbitControls.js"></script>
+
+		<script src="src/cursor/CursorEvents.js"></script>
+		<script src="src/cursor/AltObjectControls.js"></script>
+		<script src="src/cursor/ColorHoverEffect.js"></script>
+		<script src="src/cursor/DragPlaneEffect.js"></script>
+</head>
+<body>
+	<script>
+
+	var scene, renderer, camera;
+	var cube;
+	var inAltspace = window.hasOwnProperty('altspace');
+	var manager = new THREE.LoadingManager();
+	var cursorEvents;
+	var loader;
+	var altObjectControls, orbitControls
+	var useOrbitControls = !inAltspace;
+	
+	var dragPlane;
+	var sceneInfo = { dragPlaneSize: 10000 };
+
+	loadModels();
+
+	function loadModels() {
+
+		
+		if ( inAltspace ) {
+
+			loader = new THREE.AltOBJMTLLoader( manager );
+			var objFilename = "models/AltspaceCube/cube.obj";
+			loader.load(objFilename, function ( loadedObject ) {
+
+				console.log("Loaded object from " + objFilename, loadedObject);
+				cube = loadedObject;
+
+				onModelsLoaded();
+
+			
+			});
+
+		} else {
+		
+			loader = new THREE.OBJMTLLoader();
+			var objFilename = "models/AltspaceCube/cube.obj";
+			var mtlFilename = "models/AltspaceCube/cube.mtl";
+			loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+				console.log("Loaded object from " + objFilename, loadedObject);
+				cube = loadedObject;
+				onModelsLoaded();
+			});
+
+		}
+
+	}
+
+	function onModelsLoaded() {
+
+		initScene();
+	}
+
+	function initScene() {
+
+		scene = new THREE.Scene();
+
+		cursorEvents = new CursorEvents( scene );
+
+		if ( inAltspace ) {
+
+			renderer = altspace.getThreeJSRenderer();
+
+			var scale = new THREE.Vector3( 10, 10, 10 );
+			cube.scale.copy( scale );
+			cube.position.y = -450;
+
+		} else {
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			camera.position.z = 50;
+			
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			
+			document.body.appendChild( renderer.domElement );
+
+			var ambient = new THREE.AmbientLight( 0xffffff );
+			scene.add( ambient );
+
+		}
+
+		scene.add( cube );
+
+		var dragPlaneSize = sceneInfo.dragPlaneSize;
+		var dragPlaneGeo = new THREE.BoxGeometry( dragPlaneSize, 0.25, dragPlaneSize );
+		var showDragPlane = false;
+		var dragPlaneMat = new THREE.MeshBasicMaterial({
+			color: 0xFFFFFF, 
+			opacity: 0.25,
+			transparent: true,
+			visible: showDragPlane
+		});
+
+		dragPlane = new THREE.Mesh(dragPlaneGeo, dragPlaneMat);
+		dragPlane.name = "drag plane";
+
+		var params = {};
+		params.dragPlane = dragPlane;
+		var dragEffect = new DragPlaneEffect( params );
+
+		var redTint = new THREE.Color(0.8, 0.2, 0.2);
+		params = { color: redTint };
+		var hoverEffect = new ColorHoverEffect( params );
+
+		if (useOrbitControls) {
+			orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
+			orbitControls.damping = 0.2;
+		}
+
+		if ( useOrbitControls ) params.orbitControls = orbitControls;
+
+		cursorEvents.enableMouseEvents( camera );
+		cursorEvents.addObject( cube );
+
+		cursorEvents.addEffect( hoverEffect, cube );
+		cursorEvents.addEffect( dragEffect, cube );
+		
+		/*
+		cube.addEventListener( "cursordown", function (event) {
+		    scene.remove( cube );
+		    delete cube;
+		    console.log("cube is deleted");
+		});
+		
+
+		cube.addEventListener( "cursorenter", function (event) {
+		    cube.scale.y *= 1.3;
+		    console.log("cursor is overing!")
+		    
+		});
+
+		cube.addEventListener( "cursorleave", function (event) {
+		    cube.scale.y /= 1.3;
+		    console.log("cursor is out!");
+		});
+		*/
+		
+
+		animate();
+
+	}
+	
+	function animate() {
+
+		requestAnimationFrame( animate );
+
+		cursorEvents.update(); 
+
+		if (useOrbitControls) orbitControls.update();
+
+		cube.rotation.y += 0.01;
+
+		renderer.render( scene, camera );
+
+	}
+
+	</script>
+</body>
+</html>

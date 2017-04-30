@@ -1,20 +1,60 @@
 <html>
   <head>
+    <title>Primitives & Attributes</title>
     <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AltspaceVR/AltspaceSDK/v2.0.2/dist/altspace.min.js"></script>
-    <script>
-      var box = document.querySelector('a-box');
-      box.getAttribute('position');
-      box.addEventListener('click', function () {
-        box.setAttribute('color', 'red');
-      });
-    </script>
   </head>
   <body>
-    <a-scene altspace='vertical-align: bottom;'>
-      <a-box color="#6173F4" opacity="0.8" depth="2"></a-box>
-      <a-sphere radius="0.5" src="assets/texture.png" position="1 1 0"></a-sphere>
+    <a-scene altspace>
+      
+      <a-assets>
+        <img id='curve' src='assets/curvedUI.jpg'>
+        <img id='texture' src='assets/texture.png'>
+        <img id='ring' src='assets/oneRing2.jpg'>
+        <img id='d4' src='assets/d4_DIFF.jpg'>
+        <img id='d8' src='assets/d8Numbered.png'>
+        <img id='d10' src='assets/d10Numbered.png'>
+        <img id='d12' src='assets/d12Numbered.png'>
+        <img id='d20' src='assets/d20Numbered.png'>
+        <a-asset-item id='frog-obj' src='assets/cow.obj'></a-asset-item>
+        <a-asset-item id='frog-mtl' src='assets/cow.mtl'></a-asset-item>
+      </a-assets>
+      
+      <a-image src="#curve" position='1 -1.5 -1' rotation='0 270 0'></a-image>
+      <a-curvedimage src='#curve' position='0 -1.5 -1' height='1.5' radius='2' theta-length='120' rotation='0 180 0' scale='0.5 0.5 0.5'></a-curvedimage>
+
+      <a-box position='2 0 2' color="#6173F4" opacity="0.8" depth="1"></a-box>
+      <a-sphere position="2 0 1" color='beige' radius="0.5" metalness=0.5></a-sphere>
+      <a-box position='2 0 0' color="teal" roughness="2" depth="1"></a-box>
+      <a-circle position="2 0 -1" color='yellow' radius="0.5" rotation='-45 0 0'></a-circle>
+      <a-cone position='2 0 -2' color="tomato" radius-bottom="0.5" radius-top="0.1"></a-cone>
+      <!-- Basic cylinder. -->
+      <a-cylinder position='1 0 -2' radius="0.4" color="crimson" height="2" rotation='-45 0 0'></a-cylinder>
+      <!-- Hexagon. -->
+      <a-cylinder position='0 0 -2' radius="0.4" color="cyan" segments-radial="8" rotation='-45 0 0'></a-cylinder>
+      <!-- Pac-man. -->
+      <a-cylinder position='-1 0 -2' radius="0.4" color="yellow" theta-start="50" theta-length="280" side="double" rotation='-45 0 0'></a-cylinder>
+      <!-- Green pipe. -->
+      <a-cylinder position='-2 0 -2' radius="0.4" color="green" open-ended="true" rotation='-45 0 0'></a-cylinder>
+      <a-dodecahedron position='-2 0 -1' src='#d12' radius="0.4"></a-dodecahedron>
+      <a-octahedron position='-2 0 0' src='#d8' radius="0.4"></a-octahedron>
+      <a-ring position='-2 0 1' src='#ring' radius-inner="0.1" radius-outer="0.4" rotation='0 90 0'></a-ring>
+      <a-tetrahedron position='-2 0 2' src='#d4' radius="0.5"></a-tetrahedron>
+      <a-torus-knot position='-1 0 2' color="#B84A39" arc="180" p="2" q="3" radius="0.4" radius-tubular="0.05"></a-torus-knot>
+      <a-torus position='1 0 2' color="#43A367" arc="270" radius="0.4" radius-tubular="0.05"></a-torus>
+
+      <a-obj-model position='0 -2 0' scale='1 1 1' src="#frog-obj" mtl="#frog-mtl"></a-obj-model>
+
+      <a-sound src="src: url(music/Voyeur.mp3)" autoplay="true" position="0 0 0" loop='true' volume='0.4'></a-sound>
+
       <a-sky color="#ECECEC"></a-sky>
+
+      <a-plane position='0 -2.5 0' src="#texture" height="5" width="5" rotation="-90 0 0"></a-plane>
+      
+      <a-entity position='0 -2.5 3'>
+        <a-camera></a-camera>
+      </a-entity>
+    
     </a-scene>
   </body>
 </html>

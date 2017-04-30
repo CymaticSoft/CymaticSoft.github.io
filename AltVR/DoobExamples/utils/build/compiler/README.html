@@ -1,0 +1,488 @@
+<h1 id="-google-closure-compiler-https-developers-google-com-closure-compiler-"><a href="https://developers.google.com/closure/compiler/">Google Closure Compiler</a></h1>
+<p><a href="https://travis-ci.org/google/closure-compiler"><img src="https://travis-ci.org/google/closure-compiler.svg?branch=master" alt="Build Status"></a></p>
+<p>The <a href="https://developers.google.com/closure/compiler/">Closure Compiler</a> is a tool for making JavaScript download and run faster. It is a true compiler for JavaScript. Instead of compiling from a source language to machine code, it compiles from JavaScript to better JavaScript. It parses your JavaScript, analyzes it, removes dead code and rewrites and minimizes what&#39;s left. It also checks syntax, variable references, and types, and warns about common JavaScript pitfalls.</p>
+<h2 id="getting-started">Getting Started</h2>
+<ul>
+<li><a href="http://dl.google.com/closure-compiler/compiler-latest.zip">Download the latest version</a></li>
+<li>See the <a href="https://developers.google.com/closure/compiler/docs/gettingstarted_app">Google Developers Site</a> for documentation including instructions for running the compiler from the command line.</li>
+</ul>
+<h2 id="options-for-getting-help">Options for Getting Help</h2>
+<ol>
+<li>Post in the <a href="https://groups.google.com/forum/#!forum/closure-compiler-discuss">Closure Compiler Discuss Group</a></li>
+<li>Ask a question on <a href="http://stackoverflow.com/questions/tagged/google-closure-compiler">Stack Overflow</a></li>
+<li>Consult the <a href="https://github.com/google/closure-compiler/wiki/FAQ">FAQ</a></li>
+</ol>
+<h2 id="building-it-yourself">Building it Yourself</h2>
+<p>Note: The Closure Compiler requires <a href="http://www.java.com/">Java 7 or higher</a>.</p>
+<h3 id="using-ant-http-ant-apache-org-">Using <a href="http://ant.apache.org/">Ant</a></h3>
+<ol>
+<li><p>Download the <a href="http://ant.apache.org/bindownload.cgi">Ant build tool</a>.</p>
+</li>
+<li><p>At the root of the source tree, there is an Ant file named <code>build.xml</code>.
+To use it, navigate to the same directory and type the command</p>
+<pre><code> ant jar
+</code></pre><p> This will produce a jar file called <code>build/compiler.jar</code>.</p>
+</li>
+</ol>
+<h3 id="using-eclipse-http-www-eclipse-org-">Using <a href="http://www.eclipse.org/">Eclipse</a></h3>
+<ol>
+<li>Download and open the <a href="http://www.eclipse.org/">Eclipse IDE</a>.</li>
+<li>Navigate to <code>File &gt; New &gt; Project ...</code> and create a Java Project. Give
+the project a name.</li>
+<li>Select <code>Create project from existing source</code> and choose the root of the
+checked-out source tree as the existing directory.</li>
+<li>Navigate to the <code>build.xml</code> file. You will see all the build rules in
+the Outline pane. Run the <code>jar</code> rule to build the compiler in
+<code>build/compiler.jar</code>.</li>
+</ol>
+<h2 id="running">Running</h2>
+<p>On the command line, at the root of this project, type</p>
+<pre><code>java -jar build/compiler.jar
+</code></pre><p>This starts the compiler in interactive mode. Type</p>
+<pre><code class="lang-javascript">var x = 17 + 25;
+</code></pre>
+<p>then hit &quot;Enter&quot;, then hit &quot;Ctrl-Z&quot; (on Windows) or &quot;Ctrl-D&quot; (on Mac or Linux)
+and &quot;Enter&quot; again. The Compiler will respond:</p>
+<pre><code class="lang-javascript">var x=42;
+</code></pre>
+<p>The Closure Compiler has many options for reading input from a file, writing
+output to a file, checking your code, and running optimizations. To learn more,
+type</p>
+<pre><code>java -jar compiler.jar --help
+</code></pre><p>More detailed information about running the Closure Compiler is available in the
+<a href="http://code.google.com/closure/compiler/docs/gettingstarted_app.html">documentation</a>.</p>
+<h2 id="compiling-multiple-scripts">Compiling Multiple Scripts</h2>
+<p>If you have multiple scripts, you should compile them all together with one
+compile command.</p>
+<pre><code class="lang-bash">java -jar compiler.jar --js_output_file=out.js in1.js in2.js in3.js ...
+</code></pre>
+<p>You can also use minimatch-style globs.</p>
+<pre><code class="lang-bash"># Recursively include all js files in subdirs
+java -jar compiler.jar --js_output_file=out.js &#39;src/**.js&#39;
+
+# Recursively include all js files in subdirs, exclusing test files.
+# Use single-quotes, so that bash doesn&#39;t try to expand the &#39;!&#39;
+java -jar compiler.jar --js_output_file=out.js &#39;src/**.js&#39; &#39;!**_test.js&#39;
+</code></pre>
+<p>The Closure Compiler will concatenate the files in the order they&#39;re passed at
+the command line.</p>
+<p>If you&#39;re using globs or many files, you may start to run into
+problems with managing dependencies between scripts. In this case, you should
+use the <a href="https://developers.google.com/closure/library/">Closure Library</a>. It
+contains functions for enforcing dependencies between scripts, and Closure Compiler
+will re-order the inputs automatically.</p>
+<h2 id="how-to-contribute">How to Contribute</h2>
+<h3 id="reporting-a-bug">Reporting a bug</h3>
+<ol>
+<li>First make sure that it is really a bug and not simply the way that Closure Compiler works (especially true for ADVANCED_OPTIMIZATIONS).<ul>
+<li>Check the <a href="https://developers.google.com/closure/compiler/">official documentation</a></li>
+<li>Consult the <a href="https://github.com/google/closure-compiler/wiki/FAQ">FAQ</a></li>
+<li>Search on <a href="http://stackoverflow.com/questions/tagged/google-closure-compiler">Stack Overflow</a> and in the <a href="https://groups.google.com/forum/#!forum/closure-compiler-discuss">Closure Compiler Discuss Group</a></li>
+</ul>
+</li>
+<li>If you still think you have found a bug, make sure someone hasn&#39;t already reported it. See the list of <a href="https://github.com/google/closure-compiler/issues">known issues</a>.</li>
+<li>If it hasn&#39;t been reported yet, post a new issue. Make sure to add enough detail so that the bug can be recreated. The smaller the reproduction code, the better.</li>
+</ol>
+<h3 id="suggesting-a-feature">Suggesting a Feature</h3>
+<ol>
+<li>Consult the <a href="https://github.com/google/closure-compiler/wiki/FAQ">FAQ</a> to make sure that the behaviour you would like isn&#39;t specifically excluded (such as string inlining).</li>
+<li>Make sure someone hasn&#39;t requested the same thing. See the list of <a href="https://github.com/google/closure-compiler/issues">known issues</a>.</li>
+<li>Read up on <a href="https://github.com/google/closure-compiler/wiki/FAQ#how-do-i-submit-a-feature-request-for-a-new-type-of-optimization">what type of feature requests are accepted</a>.</li>
+<li>Submit your reqest as an issue.</li>
+</ol>
+<h3 id="submitting-patches">Submitting patches</h3>
+<ol>
+<li>All contributors must sign a contributor license agreement. See the <a href="https://raw.githubusercontent.com/google/closure-compiler/master/CONTRIBUTORS">CONTRIBUTORS</a> file for details.</li>
+<li>To make sure your changes are of the type that will be accepted, ask about your patch on the <a href="https://groups.google.com/forum/#!forum/closure-compiler-discuss">Closure Compiler Discuss Group</a></li>
+<li>Fork the repository.</li>
+<li>Make your changes.</li>
+<li>Submit a pull request for your changes. A project developer will review your work and then merge your request into the project.</li>
+</ol>
+<h2 id="closure-compiler-license">Closure Compiler License</h2>
+<p>Copyright 2009 The Closure Compiler Authors.</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>.</p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+<h2 id="dependency-licenses">Dependency Licenses</h2>
+<h3 id="rhino">Rhino</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td>
+      <code>src/com/google/javascript/rhino</code>, <code>test/com/google/javascript/rhino</code>
+    </td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://www.mozilla.org/rhino">http://www.mozilla.org/rhino</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>1.5R3, with heavy modifications</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>Netscape Public License and MPL / GPL dual license</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>A partial copy of Mozilla Rhino. Mozilla Rhino is an
+implementation of JavaScript for the JVM.  The JavaScript
+parse tree data structures were extracted and modified
+significantly for use by Google&#39;s JavaScript compiler.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>The packages have been renamespaced. All code not
+relevant to the parse tree has been removed. A JsDoc parser and static typing
+system have been added.</td>
+  </tr>
+</table>
+
+<h3 id="args4j">Args4j</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/args4j.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="https://args4j.dev.java.net/">https://args4j.dev.java.net/</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>2.0.26</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>MIT</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>args4j is a small Java class library that makes it easy to parse command line
+options/arguments in your CUI application.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="guava-libraries">Guava Libraries</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/guava.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://code.google.com/p/guava-libraries/">http://code.google.com/p/guava-libraries/</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>18.0</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>Apache License 2.0</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Google&#39;s core Java libraries.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="jsr-305">JSR 305</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/jsr305.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://code.google.com/p/jsr-305/">http://code.google.com/p/jsr-305/</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>svn revision 47</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>BSD License</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Annotations for software defect detection.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="junit">JUnit</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/junit.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://sourceforge.net/projects/junit/">http://sourceforge.net/projects/junit/</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>4.11</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>Common Public License 1.0</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>A framework for writing and running automated tests in Java.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="protocol-buffers">Protocol Buffers</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/protobuf-java.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://code.google.com/p/protobuf/">http://code.google.com/p/protobuf/</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>2.5.0</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>New BSD License</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Supporting libraries for protocol buffers,
+an encoding of structured data.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="ant">Ant</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td>
+      <code>lib/ant.jar</code>, <code>lib/ant-launcher.jar</code>
+    </td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://ant.apache.org/bindownload.cgi">http://ant.apache.org/bindownload.cgi</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>1.8.1</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>Apache License 2.0</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Ant is a Java based build tool. In theory it is kind of like &quot;make&quot;
+without make&#39;s wrinkles and with the full portability of pure java code.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="json">JSON</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/json.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://json.org/java/index.html">http://json.org/java/index.html</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>JSON version 20090211</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>MIT license</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>JSON is a set of java files for use in transmitting data in JSON format.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="mockito">Mockito</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/mockito-core.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="https://code.google.com/p/mockito">https://code.google.com/p/mockito</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>1.9.5</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>MIT license</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Mockito is an open source testing framework for Java. The framework allows the
+creation of Test Double objects (called &quot;Mock Objects&quot;) in automated unit tests
+for the purpose of Test-driven Development (TDD) or Behavior Driven Development
+(BDD).</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="objenesis">Objenesis</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>lib/objenesis.jar</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="http://objenesis.org">http://objenesis.org</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>1.2</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>Apache 2.0 license</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Depended by lib/mockito-core.jar, not used directly.</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>None</td>
+  </tr>
+</table>
+
+<h3 id="node-js-closure-compiler-externs">Node.js Closure Compiler Externs</h3>
+<table>
+  <tr>
+    <td>Code Path</td>
+    <td><code>contrib/nodejs</code></td>
+  </tr>
+
+  <tr>
+    <td>URL</td>
+    <td><a href="https://github.com/dcodeIO/node.js-closure-compiler-externs">https://github.com/dcodeIO/node.js-closure-compiler-externs</a></td>
+  </tr>
+
+  <tr>
+    <td>Version</td>
+    <td>e891b4fbcf5f466cc4307b0fa842a7d8163a073a</td>
+  </tr>
+
+  <tr>
+    <td>License</td>
+    <td>Apache 2.0 license</td>
+  </tr>
+
+  <tr>
+    <td>Description</td>
+    <td>Type contracts for NodeJS APIs</td>
+  </tr>
+
+  <tr>
+    <td>Local Modifications</td>
+    <td>Substantial changes to make them compatible with NpmCommandLineRunner.</td>
+  </tr>
+</table>

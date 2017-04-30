@@ -1,0 +1,245 @@
+<!-- Example Five. Getting basic three.js rotating cubes working with cursor events in AltspaceVR.
+	Uses Altspace Renderer 0.2.0.
+
+	B Wooden
+	Aug 12 2015
+-->
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<title>Cursor Events in AltspaceVR.</title>
+		<!-- Libraries we will reference -->
+		<script src="lib/three.js"></script>
+		<script src="lib/OBJMTLLoader.js"></script>
+		<script src="lib/MTLLoader.js"></script>
+		<script src="src/cursor/CursorEvents.js"></script>
+		<script src="src/cursor/AltObjectControls.js"></script>
+		
+		<style>
+			body {
+				background-color: rgba(1, 0, 0, 0);
+				margin: 0px;
+				overflow: hidden;
+
+				color: #FFFFFF;
+				font-family: Monospace;
+				font-size: 18px;
+				text-align: center;
+			}
+			#info {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+	
+	<body>
+		<body>
+				<div id="info">
+						<a href="http://github.com/AltspaceVR/AltspaceSDK" 
+							 target="_blank">AltspaceSDK</a> - Follow the Cursor?
+				</div>
+		</body>
+		
+		<script>
+			
+			//allows for Altspace view and Browser view
+			var inAltspace = window.hasOwnProperty("altspace");
+			//the trio of items needed for three.js
+			var scene, camera, renderer;
+			//used to initialize cursor events
+			var cursorEvents;
+			//declare variables for cubes
+			var cube;
+			var cubeA;
+			//variable for sound upon click
+			var sound = null;
+			var objects = [], plane;
+
+			//begin by loading the models into the scene
+			loadModels();
+
+			function loadModels() {
+
+				//Load up the cube .obj
+				var loader = new THREE.OBJMTLLoader();
+				var objFilename = "models/AltspaceCube/cube.obj";
+				var mtlFilename = "models/AltspaceCube/cube.mtl";
+				loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+					console.log("Loaded object from " + objFilename, loadedObject);
+					cubeA = loadedObject;
+					onModelsLoaded();
+					
+				});
+			}
+
+			function onModelsLoaded() {
+
+				initScene();
+				initControls();
+				animate();
+
+			}
+
+			function initScene() {
+				
+				//initialize scene
+				scene = new THREE.Scene();
+			
+				if ( inAltspace ) {
+
+					//initialize Altspace renderer
+					renderer = altspace.getThreeJSRenderer( { version: "0.2.0" });
+
+					//three.js primitive cube
+					//Given the properties of the AltspaceVR browser, we have to make sure the geometry is scaled up a bit.
+					var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+					var material = new THREE.MeshBasicMaterial( { color: 0x0088bb } );
+					cube = new THREE.Mesh( geometry, material );
+
+					var geometry = new THREE.BoxGeometry( 40, 40, 40 );
+
+					
+
+					// hide any elements on webpage
+					document.getElementById("info").style.visibility = "hidden";
+
+					//place the scene at the bottom of the enclosure
+					//scene.position.y = ( -1 * window.innerHeight / 2 );
+
+					//Scale up the cube model
+					var scale = new THREE.Vector3( 10, 10, 10 );
+					cubeA.scale.copy( scale );
+
+					//move it away from the primitive cube
+					cube.position.x = 200;
+					cube.position.y = 25;
+
+				} else {
+
+					//initialize standard three.js renderer
+					renderer = new THREE.WebGLRenderer();
+					renderer.setClearColor("#AAAAAA");
+					renderer.setSize( window.innerWidth, window.innerHeight );
+					document.body.appendChild( renderer.domElement );
+
+					//initialize camera
+					var aspect = window.innerWidth / window.innerHeight;
+					camera = new THREE.PerspectiveCamera(45, aspect, 1, 2000 );
+					camera.position.z = 200;	// stand back from origin
+					camera.lookAt( scene.position );
+
+					//three.js primitive cube
+					//Given the properties of the AltspaceVR browser, we have to make sure the geometry is scaled up a bit.
+					var geometry = new THREE.BoxGeometry( 10, 10, 10 );
+					var material = new THREE.MeshBasicMaterial( { color: 0x0088bb } );
+					cube = new THREE.Mesh( geometry, material );
+
+					//move primitive cube away from model cube
+					cube.position.x = 20;
+					
+
+				}
+
+				for ( var i = 0; i < 200; i ++ ) {
+
+					var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+
+					object.position.x = Math.random() * 1000 - 500;
+					object.position.y = Math.random() * 600 - 300;
+					object.position.z = Math.random() * 800 - 400;
+
+					object.rotation.x = Math.random() * 2 * Math.PI;
+					object.rotation.y = Math.random() * 2 * Math.PI;
+					object.rotation.z = Math.random() * 2 * Math.PI;
+
+					object.scale.x = Math.random() * 2 + 1;
+					object.scale.y = Math.random() * 2 + 1;
+					object.scale.z = Math.random() * 2 + 1;
+
+					
+
+					scene.add( object );
+
+					objects.push( object );
+
+				}
+
+				// OBJMTLLoader always uses PhongMaterial, so we need light in scene.
+				var ambient = new THREE.AmbientLight( 0xffffff );
+				scene.add( ambient );
+
+				//by default, the cube is added to the scene at coordinates 0,0,0.
+				scene.add( cube );
+				console.log("cube added to scene");
+				scene.add( cubeA );
+				console.log("cubeA added to scene");
+
+			}
+
+			function initControls() {
+
+				var params = { defaultTarget: cubeA };
+				cursorEvents = new CursorEvents( scene, params );
+				cursorEvents.enableMouseEvents( camera );
+
+				cubeA.userData.prevMousePosition = new THREE.Vector3();
+				cubeA.userData.selectY = 0;
+
+				cubeA.addEventListener( "cursormove", function( event ) {
+
+					// Move event not associated with a particular object, but dispatched
+					// to cube since we set it as defaultTarget for ObjectCursorEvents.
+					// Typically the optional defaultTarget would be a manager object.
+
+					// Cube is placed 100 units from the user, along the cursor ray.
+					
+					var cursorRay = event.detail.cursorRay;
+					var offset =  cursorRay.direction.multiplyScalar(500);
+					this.position.copy( cursorRay.origin.add( offset ) );
+					
+
+				});
+
+				cursorEvents.addObject( cubeA );
+
+			}
+
+			function onWindowResize() {
+
+				if ( inAltspace ) return ; // Resize not supported yet.
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			//render loop. Draws the scene at 60 fps.
+			function animate() {
+				
+				requestAnimationFrame( animate );
+				
+				//add cube rotation
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				cubeA.rotation.x += 0.01;
+				cubeA.rotation.y += 0.01;
+
+				//update cursor events every frame
+				cursorEvents.update();
+
+				//render that shit!
+				renderer.render( scene, camera );
+			}
+
+		</script>
+	</body>
+</html>

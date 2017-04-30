@@ -1,0 +1,31 @@
+<h1 id="three-js-maya-export">Three.js Maya Export</h1>
+<p>Exports Maya models to Three.js&#39; JSON format.  Currently supports exporting the following:</p>
+<ul>
+<li>Vertices</li>
+<li>Faces</li>
+<li>Normals</li>
+<li>UV sets</li>
+<li>Shaders/Materials</li>
+<li>Per-Face material indices</li>
+<li>Diffuse Maps</li>
+<li>Specular Maps</li>
+<li>Bump/Normal Maps</li>
+<li>Bones</li>
+<li>Skins (configurable influences per vertex)</li>
+<li>Skeletal animation</li>
+<li>Morph Target/Vertex Cache animation</li>
+<li>Multiple Characters per scene</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Install <a href="http://download.autodesk.com/global/docs/maya2014/en_us/PyMel/install.html">pymel</a>.
+Though the docs are way out of date, the process described still works as of
+2014.</p>
+<p>Copy the scripts and plug-ins folders to the appropriate maya folder, where <code>maya-version</code> is your current version of Maya (eg. 2013-x64).</p>
+<ul>
+<li>Windows: <code>C:\Users\username\Documents\maya\maya-version</code></li>
+<li>OSX: <code>~/Library/Preferences/Autodesk/maya/maya-version</code></li>
+<li>Linux: <code>/usr/autodesk/userconfig/maya/maya-version</code></li>
+</ul>
+<p>After that, you need to activate the plugin.  In Maya, open <code>Window &gt; Settings/Preferences &gt; Plug-in Manager</code> and enable the checkboxes next to <code>threeJsFileTranslator.py</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>Use the regular Export menus within Maya, select <code>Three.js</code>.</p>

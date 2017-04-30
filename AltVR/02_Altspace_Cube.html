@@ -1,0 +1,68 @@
+<!-- Example Two. Getting the basic three.js rotating cube example into AltspaceVR. This will not render in a regular browser.
+
+	B Wooden
+	Aug 10 2015
+-->
+
+<html>
+	
+	<head>
+		<title>Three.js cube in AltspaceVR.</title>
+		<!-- Libraries we will reference -->
+		<script src="../lib/three.js"></script>
+	</head>
+	
+	<body>
+		
+		<script>
+			
+			//initialize scene
+			var scene = new THREE.Scene();
+			
+			//initalize renderer
+			var renderer = new altspace.getThreeJSRenderer({version: '0.2.0'});
+			
+			//place the scene at the bottom of the enclosure (optional)
+			scene.position.y = ( -1 * window.innerHeight / 2 );
+
+			//Create geometry & material for a cube, assign them to a mesh, add it to the scene.
+			//Given the properties of the AltspaceVR browser, we have to make sure the geometry is scaled up a bit.
+			var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+			var material = new THREE.MeshBasicMaterial( { color: 0x0088bb } );
+			var cube = new THREE.Mesh( geometry, material );
+
+			//by default, the cube is added to the scene at coordinates 0,0,0.
+			scene.add( cube );
+			console.log("cube added to scene");
+
+			//We can take this stuff out from the previous example.
+			/*
+			//initalize camera. (FOV, Aspect Ratio, Near Clip Plane, Far Clip Plane.)
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			
+			//Set renderer size to browser window
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			//add the renderer element
+			document.body.appendChild( renderer.domElement );
+
+			//set the camera position
+			camera.position.z = 5;
+			camera.position.y = 1;
+			camera.position.x = 1;
+			*/
+
+			//render loop. Draws the scene at 60 fps.
+			function render() {
+				requestAnimationFrame( render );
+				//add cube rotation
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				//render it! Just the scene, not the camera:
+				renderer.render( scene );
+			};
+			
+			render();
+
+		</script>
+	</body>
+</html>

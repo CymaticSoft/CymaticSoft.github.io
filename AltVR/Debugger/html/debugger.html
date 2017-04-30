@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>Coherent UI Development Tools</title>
+	<style>
+	body {
+		margin: 0px;
+	}
+	
+	table {
+		border: 0px;
+		border-collapse: collapse;
+	}
+	
+	td {
+		padding:0px;
+	}
+	
+	label {
+		font-family:"Arial", Arial, sans-serif;
+		font-size:14px;
+	}
+	
+	.addressbar {
+		background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E9E9E9), to(#CFCFCF));
+	}
+	</style>
+	<script type="text/javascript">
+		function loadURL() {
+			var url = document.getElementById('url').value;
+			document.getElementById('devtools').src = url;
+		}
+	</script>
+</head>
+<body>
+	<table style="width: 100%; height: 100%">
+	<tr style="height: 0px">
+		<td>
+		<div class="addressbar">
+		<table style="width: 100%">
+		<col width="180">
+		<col width="1*">
+		<col width="32">
+		<tr>
+		<td style="padding:2px;"><label for="url">Coherent UI debugger URL:</label></td>
+		<td><input id="url" type="text" style="width: 100%" onchange="loadURL()" value="http://127.0.0.1:9999"></input></td>
+		<td><button onclick="loadURL()">Go</button></td>
+		</tr>
+		</table>
+		</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<iframe id="devtools" width="100%" height="100%" style="border: none"/>
+		</td>
+	</tr>
+	</table>
+</body>
+</html>

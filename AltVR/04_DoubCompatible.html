@@ -1,0 +1,91 @@
+<!-- Example Four. What if we want our app to work in AltspaceVR or using a desktop browser? Get the rotationg cube example working in both browser and ASVR.
+
+	B Wooden
+	Aug 10 2015
+-->
+<!DOCTYPE html>
+<html lang=en>
+	
+	<head>
+		<title>Spinning cube in ASVR and Browser.</title>
+		<script src="../lib/three.js"></script>
+	</head>
+
+	<body>
+		<script>
+			
+			//Declare variables
+			var scene;
+			var camera;
+			var renderer;
+			var cube;
+			//We will use this to detect if the page is loading in AltspaceVR or not
+			var inAltspace = window.hasOwnProperty('altspace');
+
+			//initialize the scene
+			scene = new THREE.Scene();
+
+			//instructions for in AltspaceVR vs. Standard Browser
+			if ( inAltspace ) {
+
+				//This is where we will put ASVR specific stuff.
+				//initalize renderer
+				renderer = new altspace.getThreeJSRenderer({version: '0.2.0'});
+				
+				//place the scene at the bottom of the enclosure (optional)
+				//scene.position.y = ( -1 * window.innerHeight / 2 );
+
+				//Create geometry & material for a cube, assign them to a mesh, add it to the scene.
+				//Given the properties of the AltspaceVR browser, we have to make sure the geometry is scaled up a bit.
+				var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+				var material = new THREE.MeshBasicMaterial( { color: 0x0088bb } );
+				cube = new THREE.Mesh( geometry, material );
+
+			} else {
+
+				//this is where we will put Desktop browser specific stuff.
+				//initalize camera. (FOV, Aspect Ratio, Near Clip Plane, Far Clip Plane.)
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				//initalize renderer
+				renderer = new THREE.WebGLRenderer();
+				//Set renderer size to browser window size
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				//add the renderer element to the page
+				document.body.appendChild( renderer.domElement );
+
+				//Create geometry & material for a cube, assign them to a mesh, add it to the scene.
+				var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+				var material = new THREE.MeshBasicMaterial( { color: 0x0088bb } );
+				cube = new THREE.Mesh( geometry, material );
+				
+				//back up the camera a bit so it is not inside the cube.
+				camera.position.z = 5;
+
+				// If we were using OBJMTLLoader we would need light in scene. Otherwise, assets are in the dark.
+				//var ambient = new THREE.AmbientLight( 0xffffff );
+				//scene.add( ambient );
+
+			}
+
+			// Don't forget to add loaded models into the scene.
+			scene.add(cube);
+			console.log("Models added to scene");
+
+			//render loop. Draws the scene at 60 fps.
+			function render() {
+				requestAnimationFrame( render );
+				//add cube rotation
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				//the renderer includes the camera again!
+				renderer.render( scene, camera );
+			}
+			
+			//render it!
+			render();
+
+		</script>
+	
+	</body>
+
+</html>

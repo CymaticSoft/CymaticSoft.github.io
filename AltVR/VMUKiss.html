@@ -1,0 +1,90 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <title>Template</title> 
+    <script src="http://sdk.altvr.com/lib/three.js"></script> 
+    <script src="http://sdk.altvr.com/lib/MTLLoader.js"></script> 
+    <script src="http://sdk.altvr.com/lib/OBJMTLLoader.js"></script> 
+    <script src="http://sdk.altvr.com/src/AltOBJMTLLoader.js"></script> 
+    <style> 
+        body { background-color: rgba(1, 0, 0, 0); color: #fff; margin: 0px; overflow: hidden; } 
+        #info { position: absolute; margin: 10px; font-family: Arial; } 
+    </style> 
+</head> 
+    <body> 
+        <div id="test-frame"></div> 
+
+        <script> 
+        var scene, renderer; 
+        var geometry, root; 
+        var manager = new THREE.LoadingManager();
+
+        function addEventListeners(cursor) {
+            //Cursor changes colour when move hovers over model
+             cursor.addEventListener('cursorenter', function (event) {
+                 event.currentTarget.userData.tintColor = { r:0.8, g: 0.2, b: 0.2};
+             });
+            //Cursor changes the colour on the model back when not hovering over model
+             cursor.addEventListener('cursorleave', function (event) {
+                 event.currentTarget.userData.tintColor = { r:0.5, g: 0.5, b: 0.5};
+             });
+         }
+         
+        //oldrender();
+        newrender();
+         
+         function oldrender() {
+            //Loading 3d Model
+            var loader = new THREE.AltOBJMTLLoader( manager );
+            loader.load('models/ChessPieces/pawn.obj', function (pawn) {
+                 pawn.scale.x = 10;
+                 pawn.scale.y = 10;
+                 pawn.scale.z = 10;
+                 scene = new THREE.Scene();
+                 pawn.position.x = 100;
+                 pawn.position.y = -300;
+                 pawn.position.z = 300;
+                 scene.add( pawn );
+                 addEventListeners(pawn);
+                 renderer = altspace.getThreeJSRenderer();
+                 animate();
+                 
+             } );
+         }
+         
+         function newrender() {
+         //Loading 3d Model 
+            var loader = new THREE.OBJMTLLoader();
+            var objFilename = "models/AltspaceCube/cube.obj";
+            var mtlFilename = "models/AltspaceCube/cube.mtl";
+            loader.load(objFilename, mtlFilename, function ( pawn ) {
+                 pawn.scale.x = 10;
+                 pawn.scale.y = 10;
+                 pawn.scale.z = 10;
+                 scene = new THREE.Scene();
+                 pawn.position.x = 0;
+                 pawn.position.y = 0;
+                 pawn.position.z = 0;
+                 scene.add( pawn );
+                 addEventListeners(pawn);
+                 renderer = altspace.getThreeJSRenderer({version: '0.2.0'});
+                 animate();
+                 
+            } );
+        }        
+         
+         
+         function animate() {
+             requestAnimationFrame( animate );
+             render();
+         }
+
+
+         function render() {
+             renderer.render( scene );
+         }
+
+     </script>;
+ </body>;
+</html>
+

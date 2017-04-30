@@ -1,0 +1,104 @@
+<script>
+multiloader
+
+var animalCubes = [];
+var modelsToLoad = 0;
+
+
+var modelsInfo = { // constants
+	pieces: {
+		dragon:	 { model: "dragon" },
+		lion:	{ model: "lion" },
+		kitty: { model: "kitty" },
+		nyan: { model: "nyan" },
+		hippo:	 { model: "hippo"},
+	},
+
+	directory: "models/AltspaceCube",
+};
+
+var modelScale = 10;
+
+function loadModels() {
+	// Load cubes and add them to the scene.
+
+	var path = modelsInfo.directory + "/";
+
+	var loadPiece = function(pieceType, fileBasename, index) {
+
+		var filename = path + fileBasename + ".obj";
+
+		loader.load(filename, function( loadedObject ) {
+			loadedObject.scale.set( modelScale, modelScale, modelScale );
+			loadedObject.userData.pieceType = pieceType;
+			animalCubes[index] = loadedObject;
+
+			modelsToLoad--;
+			if ( modelsToLoad === 0 ) onModelsLoaded();
+		});
+
+	};
+
+	// NOTE change this number if you add more models!
+	var names = Object.keys(modelsInfo.pieces);
+	modelsToLoad = names.length + 1;
+
+	console.log("Loading " + modelsToLoad + " models...");
+
+
+	// Load pieces
+	for (var i=0; i < names.length; i++) {
+
+		var name = names[i];
+		var fileBasename = modelsInfo.pieces[name].model;
+		loadPiece(name, fileBasename, i);
+		
+	}
+
+}
+
+for (var i=0; i < animalCubes.length; i++) {
+
+	var cubeGallery = animalCubes[i];
+
+	switch( objWhite.userData.pieceType ) {
+
+		case "dragon":
+			cubeGallery.position.set( -500, -200, 0 );
+			break;
+			
+		case "lion":
+			cubeGallery.position.set( -300, -200, -400 );
+			break;
+			
+		case "kitty":
+			cubeGallery.position.set( 0, -200, -500 );
+			break;
+			
+		case "nyan":
+			cubeGallery.position.set( 300, -200, -400 );
+			break;
+			
+		case "hippo":
+			cubeGallery.position.set( 450, -200, 0 );
+			break;
+			
+		default:
+			console.error( "Unexpected piece type", objWhite.userData.pieceType );	
+
+	}
+
+}
+
+
+
+for (var i=0; i < animalCubes.length; i++) {
+
+	scene.add( animalCubes[i] );
+	cursorEvents.addObject( animalCubes[i] );
+
+}
+
+
+
+</script>

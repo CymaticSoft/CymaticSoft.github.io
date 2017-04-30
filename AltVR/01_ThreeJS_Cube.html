@@ -1,0 +1,56 @@
+<!-- Example One. New to Three.js? Here is a beginning Three.js file, the spinning cube example.
+	Will render in 2D browser, and within AltspaceVR as 2D web page.
+
+	B Wooden
+	Aug 10 2015
+-->
+
+<html>
+	<head>
+		<title>Three.js spinning cube example.</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="../lib/three.min.js"></script>
+		<script>
+			// Our Javascript will go here.
+			//initialize scene
+			var scene = new THREE.Scene();
+			//initalize camera. (FOV, Aspect Ratio, Near Clip Plane, Far Clip Plane.)
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			//initalize renderer
+			var renderer = new THREE.WebGLRenderer();
+			//Set renderer size to browser window
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			//add the renderer element
+			document.body.appendChild( renderer.domElement );
+
+			//Create geometry & material for a cube, assign them to a mesh, add it to the scene.
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshBasicMaterial( { color: 0x0088bb } );
+			var cube = new THREE.Mesh( geometry, material );
+			//by default, the cube is added to the scene at coordinates 0,0,0.
+			scene.add( cube );
+
+			//set the camera position
+			camera.position.z = 5;
+			camera.position.y = 1;
+			camera.position.x = 1;
+
+			//render loop. Draws the scene at 60 fps.
+			function render() {
+			requestAnimationFrame( render );
+			//add cube rotation
+			cube.rotation.x += 0.01;
+			cube.rotation.y += 0.01;
+			//render it!
+			renderer.render( scene, camera );
+			}
+			
+			render();
+		</script>
+	</body>
+</html>

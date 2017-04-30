@@ -1,0 +1,34 @@
+<h4 id="dependencies">Dependencies</h4>
+<ol>
+<li>To build the npm modules you will need both <code>node</code> and <code>npm</code> installed.</li>
+<li>We can then use <code>npm</code> to resolve our remaining Javascript build dependences. These
+dependencies are specified in <code>utils/build/package.json</code>.</li>
+<li>Note that there are other dependences - in particular, the
+<a href="https://developers.google.com/closure/compiler/">closure compiler</a>
+is invoked, so you will need to ensure that <code>java</code> points to a suitably
+up-to-date version of the JVM.</li>
+</ol>
+<h4 id="specifying-the-version">Specifying the version</h4>
+<p>To invoke the build script (which will build both the both the <code>three</code> and
+<code>three-math</code> node modules) we need to run a command like</p>
+<pre><code>&gt; node build.js 0.54.3-dev
+</code></pre><p>in this directory. Note how we have to provide the build script with the version
+number. The version number is of the form <code>major.minor.fix[-dev]</code>.
+The major/minor version numbers of the build should be taken from the
+<code>REVISION</code> parameter in <code>src/Three.js</code> (e.g. if <code>REVISION: &#39;68&#39;</code> choose <code>0.68</code>).</p>
+<p>Note that the following rules should be followed to determine the full version
+identifier:</p>
+<ul>
+<li>Increment the fix number by <code>1</code> if you are re-publishing an existing Three.js
+version. If this is a new release the fix number should be <code>0</code>.</li>
+<li>Add <code>-dev</code> to the version number if this is a development branch.</li>
+</ul>
+<p>As an example, to build r68, checkout the <code>r68</code> tag, follow the above, and then
+run</p>
+<pre><code>&gt; node build.js 0.68.0
+</code></pre><h4 id="publishing">Publishing</h4>
+<p>The built modules will be left in <code>node_modules</code> in this directory. To upload
+both <code>three</code> and <code>three-math</code> to <code>npm</code>, run</p>
+<pre><code>&gt; npm publish node_modules/three
+&gt; npm publish node_modules/three-math
+</code></pre><p>in this directory.</p>

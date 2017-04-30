@@ -1,0 +1,106 @@
+<!-- Bare bones example of a cursor event on a cube, working in both AltspaceVR and a regular browser.
+	Using Altspace Renderer 0.2.0.
+	NOTE: Currently works only in the browser. Cursorevents ignored by renderer 0.2.0?
+
+	Bruce Wooden
+	Aug 13 2015
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Cursor Event with Cube</title>
+
+        <script src="lib/three.js"></script>
+		<script src="lib/MTLLoader.js"></script>
+		<script src="lib/OBJMTLLoader.js"></script>
+
+		<script src="src/cursor/AltObjectControls.js"></script>
+</head>
+<body>
+	<script>
+
+	var scene, renderer, camera;
+	var cube;
+	var inAltspace = window.hasOwnProperty('altspace');
+
+	loadModels();
+
+	function loadModels() {
+
+		var loader = new THREE.OBJMTLLoader();
+
+		var objFilename = "models/NyanCube/nyanCube.obj";
+		var mtlFilename = "models/NyanCube/nyanCube.mtl";
+		loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+			console.log("Loaded object from " + objFilename, loadedObject);
+			cube = loadedObject;
+			onModelsLoaded();
+			
+		});
+
+	}
+
+	function onModelsLoaded() {
+
+		initScene();
+	}
+
+	function initScene() {
+
+		scene = new THREE.Scene();
+
+		
+
+
+		if ( inAltspace ) {
+
+			renderer = altspace.getThreeJSRenderer({version: '0.2.0'});
+
+			var scale = new THREE.Vector3( 10, 10, 10 );
+			cube.scale.copy( scale );
+			cube.position.y = -450;
+			console.log("cube.pos.y =", cube.position.y )
+
+		} else {
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			camera.position.z = 50;
+			
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			
+			document.body.appendChild( renderer.domElement );
+
+			var ambient = new THREE.AmbientLight( 0xffffff );
+			scene.add( ambient );
+
+		}
+
+		scene.add( cube );
+
+		scene.addEventListener( "cursorup", function (event) {
+		   // scene.remove( cube );
+		    //delete cube;
+		    console.log("cube is deleted");
+		});
+
+		animate();
+
+	}
+	
+	function animate() {
+
+		requestAnimationFrame( animate );
+
+	
+
+		cube.rotation.y += 0.01;
+
+		renderer.render( scene, camera );
+
+	}
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<h1 id="three-js-blender-export">Three.js Blender Export</h1>
+<p>Exports Three.js&#39; ASCII JSON format.</p>
+<h2 id="important">IMPORTANT</h2>
+<p>The exporter (r69 and earlier) has been completely replaced. Please ensure you have removed the io_three_mesh addon from your Blender addons directory before installing the current addon (io_three).</p>
+<h2 id="installation">Installation</h2>
+<p>Copy the io_three folder to the scripts/addons folder. If it doesn&#39;t exist, create it. The full path is OS-dependent (see below).</p>
+<p>Once that is done, you need to activate the plugin. Open Blender preferences, look for
+Addons, search for <code>three</code>, enable the checkbox next to the <code>Import-Export: Three.js Format</code> entry.</p>
+<p>Goto Usage.</p>
+<h3 id="windows">Windows</h3>
+<p>Should look like this:</p>
+<pre><code>C:\Program Files\Blender Foundation\Blender\2.7X\scripts\addons
+</code></pre><p>OR (for 2.6)</p>
+<pre><code>C:\Users\USERNAME\AppData\Roaming\Blender Foundation\Blender\2.6X\scripts\addons
+</code></pre><h3 id="osx">OSX</h3>
+<p>Depends on where blender.app is. Assuming you copied it to your Applications folder:</p>
+<pre><code>/Applications/blender.app/Contents/Resources/2.7X/scripts/addons
+</code></pre><p>OR (for 2.6)</p>
+<pre><code>/Applications/blender.app/Contents/MacOS/2.6X/scripts/addons
+</code></pre><h3 id="linux">Linux</h3>
+<p>By default, this should look like:</p>
+<pre><code>/home/USERNAME/.config/blender/2.6X/scripts/addons
+</code></pre><p>For Ubuntu users who installed Blender 2.68 via apt-get, this is the location:</p>
+<pre><code>/usr/lib/blender/scripts/addons
+</code></pre><h2 id="usage">Usage</h2>
+<p>Activate the Import-Export addon under &quot;User Preferences&quot; &gt; &quot;Addons&quot; and then use the regular Export menu within Blender, select <code>Three.js (json)</code>.</p>
+<h2 id="enabling-msgpack">Enabling msgpack</h2>
+<p>To enable msgpack compression copy the msgpack to scripts/modules.</p>
+<h2 id="importer">Importer</h2>
+<p>Currently there is no import functionality available.</p>

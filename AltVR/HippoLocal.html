@@ -1,0 +1,97 @@
+<!-- The Hippo will go here!
+
+	B Wooden
+	Aug 17 2015
+-->
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+		<title>Hippo Set!</title>
+
+        <script src="../lib/three.js"></script>
+		<script src="../lib/MTLLoader.js"></script>
+		<script src="../lib/OBJMTLLoader.js"></script>
+</head>
+
+<body>
+	<script>
+	//Declare variables
+	var scene, renderer, camera;
+	var hippo;
+	var inAltspace = window.hasOwnProperty('altspace');
+
+	//call the first function to kick things off
+	loadModels();
+
+	//function for loading models
+	function loadModels() {
+
+		var loader = new THREE.OBJMTLLoader();
+
+		var objFilename = "models/Hippo/hippoSet.obj";
+		var mtlFilename = "models/Hippo/hippoSet.mtl";
+		loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+			console.log("Loaded object from " + objFilename, loadedObject);
+			hippo = loadedObject;
+			onModelsLoaded();
+
+		});
+	}
+
+	//Models are loaded. What next? Let's get the scene initiated.
+	function onModelsLoaded() {
+
+		initScene();
+
+	}
+
+	//Here we set up the scene and define renderers.
+	function initScene() {
+
+		scene = new THREE.Scene();
+
+		if ( inAltspace ) {
+
+			renderer = altspace.getThreeJSRenderer({version: '0.2.0'});
+
+			var scale = new THREE.Vector3( 4, 4, 4 );
+			hippo.scale.copy( scale );
+			hippo.position.y = -480;
+		
+		} else {
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			camera.position.z = 50;
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var ambient = new THREE.AmbientLight( 0xffffff );
+			scene.add( ambient );
+
+		}
+
+		scene.add( hippo );
+		
+		
+
+	}
+
+	setTimeout(animate(), 5000);
+
+	//Our render function is named animate now. Why? 'cause its fun.
+	function animate() {
+
+		requestAnimationFrame( animate );
+		hippo.rotation.y += 0.001;
+		renderer.render( scene, camera );
+
+	}
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!-- Example Three. Getting Three.js 3d Text into AltspaceVR. Does not render in a regular browser. Requires a javascript font library.
+
+	B Wooden
+	Aug 10 2015
+-->
+<!DOCTYPE html>
+<html lang=en>
+	
+	<head>
+		<meta charset=utf-8>
+		<title>Three.js 3d Text in AltspaceVR.</title>
+		<script src="../AltVR/lib/three.js"></script>
+		<script src="../AltVR/fonts/helvetiker_regular.typeface.js"></script>
+	</head>
+
+	<body>
+		<script>
+
+		//declare variables
+		text = "Not a Hippo";
+
+		//initialize scene
+		scene = new THREE.Scene();
+
+		//initialize renderer
+		renderer = altspace.getThreeJSRenderer({version:'0.2.0'});
+
+		//Create mesh for 3d text and add it to the scene
+		geometry = new THREE.TextGeometry(text);
+		material = new THREE.MeshBasicMaterial({color:'#0088bb'});
+		mesh = new THREE.Mesh(geometry, material);
+		mesh.position.x = -400;
+		mesh.scale.z = 0.3;
+		mesh.scale.multiplyScalar(1);
+		mesh.rotation.y = Math.PI;
+		scene.add(mesh);
+
+		function animate() {
+			requestAnimationFrame(animate);
+			renderer.render(scene);
+			//mesh.rotation.x += 0.05;
+		}
+		animate();
+
+		</script>
+	
+	</body>
+
+</html>

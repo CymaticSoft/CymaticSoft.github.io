@@ -1,0 +1,200 @@
+<!-- The Hippo will go here!
+
+	B Wooden
+	Aug 17 2015
+-->
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+		<title>Hippo Set!</title>
+
+        <script src="lib/three.js"></script>
+		<script src="lib/MTLLoader.js"></script>
+		<script src="lib/OBJMTLLoader.js"></script>
+		<script src="src/cursor/CursorEvents.js"></script>
+		<script src="src/cursor/AltObjectControls.js"></script>
+</head>
+
+<body>
+	<script>
+	//Declare variables
+	var scene, renderer;
+	var inAltspace = window.hasOwnProperty('altspace');
+	var cursorEvents;
+	
+	var hippoItems = [];
+	var modelsToLoad = 0;
+	var modelScale = 4;
+	var modelsInfo = {
+
+		pieces: {
+
+			hippoSet: { model: "hippoSet" },
+
+			cube: { model: "back" },
+
+		},
+
+		directory: "models/AltspaceCube",
+	};
+
+	//call the first function to kick things off
+	loadModels();
+
+	//function for loading models
+	function loadModels() {
+
+		multirenderNew();
+
+	}
+
+	function multirenderNew() {
+
+		loader = new THREE.OBJMTLLoader();
+		if (inAltspace) {
+			renderType = altspace.getThreeJSRenderer({ version: '0.2.0'});
+		} else {
+			renderType = new THREE.WebGLRenderer();
+		}
+
+		var path = modelsInfo.directory + "/";
+
+		var loadPiece = function(pieceType, fileBasename, index) {
+
+			var filename = path + fileBasename + ".obj";
+
+			var mtlname = path + fileBasename + ".mtl";
+
+			loader.load(filename, mtlname, function( loadedObject ) {
+
+				loadedObject.scale.set( modelScale, modelScale, modelScale );
+
+				loadedObject.userData.pieceType = pieceType;
+
+				hippoItems[index] = loadedObject;
+
+				modelsToLoad--;
+
+				if ( modelsToLoad === 0 ) onModelsLoaded();
+
+			});
+
+		};
+
+		// NOTE change this number if you add more models!
+
+		var names = Object.keys(modelsInfo.pieces);
+		modelsToLoad = names.length;
+		console.log("Loading " + modelsToLoad + " models...");
+
+		// Load pieces
+		for (var i=0; i < names.length; i++) {
+
+			var name = names[i];
+			var fileBasename = modelsInfo.pieces[name].model;
+			loadPiece(name, fileBasename, i);
+
+		}
+
+		onModelsLoaded();
+
+	}
+
+	//Models are loaded. What next? Let's get the scene initiated.
+	function onModelsLoaded() {
+
+		initScene();
+
+	}
+
+	//Here we set up the scene and define renderers.
+	function initScene() {
+
+		scene = new THREE.Scene();
+
+		cursorEvents = new CursorEvents ( scene );
+
+		renderer = renderType;
+
+		for (var i=0; i < hippoItems.length; i++) {
+
+			var cubeGallery = hippoItems[i];
+
+			switch( cubeGallery.userData.pieceType ) {
+
+				case "hippoSet":
+
+					cubeGallery.position.set( 0, -480, 0 );
+
+					break;
+
+					
+
+				case "cube":
+
+					cubeGallery.position.set( 400, -460, 450 );
+
+					cubeGallery.addEventListener( "cursordown", function (event) {
+
+					    window.open("Pets.html");
+
+					});
+
+					break;
+
+				default:
+
+					console.error( "Unexpected piece type", cubeGallery.userData.pieceType );	
+
+			}
+
+
+
+		}
+
+		for (var i=0; i < hippoItems.length; i++) {
+
+			var cubeGallery = hippoItems[i];
+
+			scene.add( cubeGallery );
+
+			cursorEvents.addObject( cubeGallery );
+
+			cubeGallery.addEventListener( "cursorenter", function (event) {
+
+			    this.scale.y *= 1.3;
+			
+			});
+
+			cubeGallery.addEventListener( "cursorleave", function (event) {
+
+			    this.scale.y /= 1.3;
+
+			});
+
+		}
+		
+	}
+
+	setTimeout(animate(), 500);
+
+	//Our render function is named animate now. Why? 'cause its fun.
+	function animate() {
+
+		requestAnimationFrame( animate );
+		cursorEvents.update();
+		for (var i=0; i < hippoItems.length; i++) {
+
+			hippoItems[i].rotation.y += 0.001;
+
+		}
+
+		renderer.render( scene );
+
+	}
+
+	</script>
+</body>
+</html>

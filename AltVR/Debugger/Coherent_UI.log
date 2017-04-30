@@ -1,0 +1,20 @@
+6496 23:46:38.234993 I | Initializing Coherent UI ver. 2.5.0.1
+6496 23:46:38.271018 I | PID: 8784 | 5352 23:46:38.250003 Staring Coherent UI Host ver. 2.5.0.1
+6496 23:46:38.271018 I | PID: 8784 | 5352 23:46:38.250003 Detected OS: Windows NT 6.2
+6496 23:46:38.271018 I | PID: 8784 | 5352 23:46:38.268016 [8784:5352:INFO:UIContentClient.cpp(74)] GPU info collected in host process: 
+6496 23:46:38.271018 I | PID: 8784 | 5352 23:46:38.268016 [8784:5352:INFO:UIContentClient.cpp(79)] Main GPU vendor 32902 device 1046
+6496 23:46:38.271018 I | PID: 8784 | 5352 23:46:38.268016 [8784:5352:INFO:UIContentClient.cpp(99)] GPU driver Intel Corporation 10.18.10.3496 from 3-11-2014
+6496 23:46:38.271018 I | Coherent UI context initialized successfully
+6496 23:46:38.293034 I | Selected DirectX device info:
+6496 23:46:38.293034 I | Device name {\\.\DISPLAY1}, DeviceId {5080}
+6496 23:46:38.293034 I | Device description {NVIDIA GeForce GTX 970M}
+6496 23:46:38.293034 I | VendorId {4318}, Driver ver. {2533352100663600}
+6496 23:46:38.321060 I | View created successfully with id 0
+6496 23:46:38.322056 I | PID: 8784 | 5352 23:46:38.307049 Navigating view 0 to coui://html/debugger.html
+6496 23:46:38.337066 I | PID: 8784 | 9424 23:46:38.324058 [8524:8380:INFO:renderer_main.cc(215)] Running without renderer sandbox
+6496 23:46:38.420124 I | PID: 8784 | 5352 23:46:38.412118 [8784:5352:INFO:(0)] GPU info collected in gpu-process process: 
+6496 23:46:38.420124 I | PID: 8784 | 5352 23:46:38.412118 [8784:5352:INFO:(0)] Main GPU vendor 32902 device 1046
+6496 23:46:38.421128 I | PID: 8784 | 5352 23:46:38.412118 [8784:5352:INFO:(0)] GPU driver Intel Corporation 10.18.10.3496 from 
+6496 23:46:38.520199 I | PID: 8784 | 5352 23:46:38.503183 [8784:5352:INFO:(0)] Selected DirectX device in GPUproc info:
+6496 23:46:38.520199 I | PID: 8784 | 5352 23:46:38.503183 [8784:5352:INFO:(0)] Device name {\\.\DISPLAY1}, DeviceId {5080}
+6496 23:46:38.520199 I | PID: 8784 | 5352 23:46:38.503183 [8784:5352:INFO:(0)] VendorId {4318}, Driver ver. {2533352100663600}

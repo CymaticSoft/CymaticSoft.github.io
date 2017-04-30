@@ -1,0 +1,163 @@
+<!-- Example Seven. Using the Drag Effect on a cube, working in both AltspaceVR and a regular browser. We will also add in orbit controls for the Desktop browser.
+
+	Bruce Wooden
+	Aug 15 2015
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Drag Effect in AltspaceVR</title>
+
+        <script src="../lib/three.js"></script>
+
+		<script src="../lib/MTLLoader.js"></script>
+		<script src="../lib/OBJMTLLoader.js"></script>
+		<script src="../src/AltOBJMTLLoader.js"></script>
+
+		<script src="../lib/OrbitControls.js"></script>
+		<script src="../src/cursor/AltObjectControls.js"></script>
+
+		<script src="../src/cursor/CursorEvents.js"></script>
+		<script src="../src/cursor/DragPlaneEffect.js"></script>
+
+		<style>
+			body {
+				/* transparent background so the page doesn't show in Altspace */
+				background-color: rgba(100, 100, 100, 0);
+				color: #BBB;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				margin: 10px;
+				position: absolute;
+				color: #FFFFFF;
+			}
+		</style>
+</head>
+<body>
+	<body>
+	<div id="info">
+			<a href="http://github.com/AltspaceVR/alt-three.js" 
+				 target="_blank">alt-three.js</a> - Drag Effect
+	</div>
+	</body>
+	<script>
+
+	//Declare variables. Got some new ones for orbit controls and dragging!
+	var scene, renderer, camera;
+	var cursorEvents;
+	var loader;
+	var cube;
+	var inAltspace = window.hasOwnProperty('altspace');
+	
+	var useOrbitControls = !inAltspace;
+	var altObjectControls, orbitControls;
+	var dragPlane;
+	var sceneInfo = { dragPlaneSize:1000 };
+	
+	function main() {
+
+		loadModels();
+
+	}
+	
+
+	function loadModels() {
+
+			loader = new THREE.OBJMTLLoader();
+			var objFilename = "models/AltspaceCube/cube.obj";
+			var mtlFilename = "models/AltspaceCube/cube.mtl";
+			loader.load(objFilename, mtlFilename, function ( loadedObject ) {
+
+				console.log("Loaded object from " + objFilename, loadedObject);
+				cube = loadedObject;
+				onModelsLoaded();
+
+			});
+	}
+
+	function onModelsLoaded() {
+
+		initScene();
+	}
+
+	function initScene() {
+
+		scene = new THREE.Scene();
+
+		if ( inAltspace ) {
+
+			renderer = altspace.getThreeJSRenderer({ version: "0.2.0" });
+
+			var scale = new THREE.Vector3( 10, 10, 10 );
+			cube.scale.copy( scale );
+			cube.position.y = -450;
+
+		} else {
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			camera.position.z = 25;
+			camera.lookAt(scene.position);
+			
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			
+			document.body.appendChild( renderer.domElement );
+
+			var ambient = new THREE.AmbientLight( 0xffffff );
+			scene.add( ambient );
+
+		}
+
+		scene.add( cube );
+
+		//Here is where we define our dragPlane, 
+		//the flat surface over which our item(s) will be dragged.
+		var dragPlaneSize = sceneInfo.dragPlaneSize;
+		var dragPlaneGeo = new THREE.BoxGeometry( dragPlaneSize, 0.25, dragPlaneSize );
+		var dragPlaneMat = new THREE.MeshBasicMaterial({
+			color: 0xffffff,
+			opacity: 0.25,
+			transparent: true,
+			visible: false
+		});
+
+		dragPlane = new THREE.Mesh(dragPlaneGeo, dragPlaneMat);
+		dragPlane.name = "drag plane";
+
+		//we also need a variable for the dragEffect itself.
+		var dragEffect = new DragPlaneEffect( dragPlane );
+
+		//after we define cursorEvents, we add dragEffect to the cube.
+		cursorEvents = new CursorEvents();
+		cursorEvents.enableMouseEvents( camera );
+		cursorEvents.addObject( cube );
+		cursorEvents.addEffect( dragEffect, cube );
+
+		if (useOrbitControls) {
+			orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
+			orbitControls.damping = 0.2;
+		}
+
+		animate();
+
+	}
+	
+	function animate() {
+
+		requestAnimationFrame( animate );
+
+		cursorEvents.update(); 
+
+		cube.rotation.y += 0.01;
+
+		renderer.render( scene, camera );
+
+	}
+
+	main();
+
+	</script>
+</body>
+</html>
