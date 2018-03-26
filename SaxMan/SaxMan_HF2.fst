@@ -3,7 +3,6 @@ type = body+head
 scale = 1
 filename = SaxMan_HF2/SaxMan_HF2.fbx
 texdir = SaxMan_HF2/textures
-rx = 90
 joint = jointLeftHand = LeftHand
 joint = jointEyeRight = RightEye
 joint = jointNeck = Neck
@@ -16,6 +15,10 @@ freeJoint = LeftArm
 freeJoint = LeftForeArm
 freeJoint = RightArm
 freeJoint = RightForeArm
+freeJoint = LeftLeg
+freeJoint = LeftUpLeg
+freeJoint = RightLeg
+freeJoint = RightUpLeg
 jointIndex = RightHandMiddle1 = 42
 jointIndex = LeftHandRing3 = 58
 jointIndex = LeftHandMiddle4 = 74
