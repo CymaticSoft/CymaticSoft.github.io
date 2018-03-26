@@ -3,6 +3,7 @@ type = body+head
 scale = 1
 filename = SaxMan_HF2/SaxMan_HF2.fbx
 texdir = SaxMan_HF2/textures
+rx = 90
 joint = jointLeftHand = LeftHand
 joint = jointEyeRight = RightEye
 joint = jointNeck = Neck
