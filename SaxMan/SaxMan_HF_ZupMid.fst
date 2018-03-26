@@ -11,10 +11,6 @@ joint = jointLeftHand = LeftHand
 joint = jointEyeRight = RightEye
 joint = jointRoot = Hips
 joint = jointHead = Head
-freeJoint = LeftLeg
-freeJoint = LeftUpLeg
-freeJoint = RightLeg
-freeJoint = RightUpLeg
 freeJoint = LeftArm
 freeJoint = LeftForeArm
 freeJoint = RightArm
@@ -103,3 +99,4 @@ jointIndex = LeftHandThumb1 = 66
 jointIndex = LeftHandThumb3 = 68
 jointIndex = LeftHandRing1 = 56
 jointIndex = RightEye_end = 81
+bs = JawOpen = Speaking = 1
