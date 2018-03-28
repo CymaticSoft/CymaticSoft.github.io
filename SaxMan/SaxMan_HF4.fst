@@ -99,3 +99,4 @@ jointIndex = RightHandThumb2 = 23
 jointIndex = LeftHandIndex4 = 64
 jointIndex = RightFoot = 5
 jointIndex = RightHandPinky4 = 40
+bs = JawOpen = Speaking = 1
